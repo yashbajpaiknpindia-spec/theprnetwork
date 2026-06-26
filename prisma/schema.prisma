@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  orders       Order[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Service {
+  id          String    @id @default(cuid())
+  platform    String
+  name        String
+  description String
+  icon        String    @default("spark")
+  active      Boolean   @default(true)
+  sortOrder   Int       @default(0)
+  packages    Package[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Package {
+  id        String   @id @default(cuid())
+  serviceId String
+  name      String
+  price     String
+  sortOrder Int      @default(0)
+  active    Boolean  @default(true)
+  service   Service  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Order {
+  id                 String   @id
+  userId             String?
+  user               User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  name               String
+  email              String?
+  platform           String
+  service            String
+  packageName        String
+  price              String   @default("")
+  accountLink        String
+  notes              String?
+  status             String   @default("Pending")
+  acceptedDisclaimer Boolean  @default(true)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}

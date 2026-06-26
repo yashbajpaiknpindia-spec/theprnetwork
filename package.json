@@ -1,0 +1,20 @@
+{
+  "name": "the-pr-network",
+  "version": "1.2.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "postinstall": "prisma generate"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.22.0",
+    "bcryptjs": "^2.4.3",
+    "compression": "^1.7.4",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "helmet": "^7.1.0",
+    "pg": "^8.12.0",
+    "prisma": "^5.22.0",
+    "zod": "^3.23.8"
+  }
+}
